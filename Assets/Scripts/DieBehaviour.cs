@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DieBehaviour : MonoBehaviour
@@ -16,6 +17,7 @@ public class DieBehaviour : MonoBehaviour
     bool rolling = false;
     int rollTimer = 0;
     public int maxRollFrames = 20, rollInterval = 2;
+    bool locked;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,13 +45,24 @@ public class DieBehaviour : MonoBehaviour
             if(rollTimer == 0)
             {
                 rolling = false;
+                Debug.Log(DieValue);
             }
         }
     }
 
     public void Roll()
     {
-        rolling = true;
-        rollTimer = maxRollFrames;
+        if (!locked)
+        {
+            rolling = true;
+            rollTimer = maxRollFrames;
+        }
+    }
+
+    [SerializeField] TextMeshProUGUI buttonText;
+    public void LockUnlock()
+    {
+        if(locked) { locked = false; buttonText.text = "LOCK IN"; }
+        else { locked = true; buttonText.text = "UNLOCK"; }
     }
 }
