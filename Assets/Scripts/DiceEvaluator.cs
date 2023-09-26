@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class DiceEvaluator : MonoBehaviour
 {
-    static int[] CountDice(DieBehaviour[] Dice)
+    public static int[] CountDice(DieBehaviour[] Dice)
     {
         int[] results = new int[6];
         foreach (DieBehaviour d in Dice)
@@ -120,7 +120,7 @@ public class DiceEvaluator : MonoBehaviour
             }
             else
             {
-                if(uniqueNumbers == 3)
+                if (uniqueNumbers == 3)
                 {
                     break;
                 }
@@ -160,5 +160,36 @@ public class DiceEvaluator : MonoBehaviour
             return lowest;
         }
         else { return 0; }
+    }
+
+    public static int[] InSequence(DieBehaviour[] dice)
+    {
+        //array at 0 is the length of the sequence, array at 1 is the start of the sequence
+        int[] counts = CountDice(dice);
+        int currentSequence = 0;
+        int[] sequence = new int[2];
+
+        for(int c = 0; c < counts.Length;)
+        {
+            if (counts[c] > 0)
+            {
+                currentSequence++;
+                if(currentSequence == 1)
+                {
+                    sequence[1] = c + 1;
+                }
+
+                if (currentSequence > sequence[0])
+                {
+                    sequence[0] = currentSequence;
+                }
+            }
+            else
+            {
+                currentSequence = 0;
+            }
+        }
+
+        return sequence;
     }
 }

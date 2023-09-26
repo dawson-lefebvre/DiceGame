@@ -17,7 +17,7 @@ public class DieBehaviour : MonoBehaviour
     bool rolling = false;
     int rollTimer = 0;
     public int maxRollFrames = 20, rollInterval = 2;
-    bool locked;
+    public bool locked;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,15 +34,15 @@ public class DieBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(rolling)
+        if (rolling)
         {
-            if(rollTimer % rollInterval == 0)
+            if (rollTimer % rollInterval == 0)
             {
                 DieValue = Random.Range(1, 7);
                 sr.sprite = Sprites[DieValue - 1];
             }
             rollTimer--;
-            if(rollTimer == 0)
+            if (rollTimer == 0)
             {
                 rolling = false;
                 Debug.Log(DieValue);
@@ -52,17 +52,20 @@ public class DieBehaviour : MonoBehaviour
 
     public void Roll()
     {
-        if (!locked)
-        {
-            rolling = true;
-            rollTimer = maxRollFrames;
-        }
+        rolling = true;
+        rollTimer = maxRollFrames;
     }
 
     [SerializeField] TextMeshProUGUI buttonText;
     public void LockUnlock()
     {
-        if(locked) { locked = false; buttonText.text = "LOCK IN"; }
+        if (locked) { locked = false; buttonText.text = "LOCK IN"; }
         else { locked = true; buttonText.text = "UNLOCK"; }
+    }
+
+    public void SetValue(int value)
+    {
+        DieValue = value;
+        sr.sprite = Sprites[DieValue - 1];
     }
 }

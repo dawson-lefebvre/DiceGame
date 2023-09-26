@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ClaimButtonsBehaviour : MonoBehaviour
 {
-    [SerializeField] Button[] buttons;
+    public Button[] buttons;
     [SerializeField] DieBehaviour[] dice;
 
     private void Start()
@@ -19,10 +19,6 @@ public class ClaimButtonsBehaviour : MonoBehaviour
 
     public void RefreshButtons()
     {
-        foreach(DieBehaviour d in dice)
-        {
-            Debug.Log(d.DieValue);
-        }
         Tuple<int, int> twoPair = DiceEvaluator.IsTwoPair(dice);
         if (twoPair.Item1 != 0)
         {
@@ -64,7 +60,6 @@ public class ClaimButtonsBehaviour : MonoBehaviour
         }
 
         int smallStright = DiceEvaluator.IsSmallStraight(dice);
-        Debug.Log(smallStright);
         if(smallStright > 0)
         {
             buttons[4].interactable = true;
@@ -75,7 +70,6 @@ public class ClaimButtonsBehaviour : MonoBehaviour
         }
 
         int largeStright = DiceEvaluator.IsLargeStraight(dice);
-        Debug.Log(largeStright);
         if (largeStright > 0)
         {
             buttons[5].interactable = true;
