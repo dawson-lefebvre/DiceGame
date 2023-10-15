@@ -11,7 +11,8 @@ public class ClaimButtonsBehaviour : MonoBehaviour
 
     private void Start()
     {
-     foreach (Button button in buttons)
+        //Set each button to not be interactable at start
+        foreach (Button button in buttons)
         {
             button.interactable = false;
         }
@@ -19,8 +20,9 @@ public class ClaimButtonsBehaviour : MonoBehaviour
 
     public void RefreshButtons()
     {
+        //Check to see if each button should be lit up, and light up buttons that need to be.
         Tuple<int, int> twoPair = DiceEvaluator.IsTwoPair(dice);
-        if (twoPair.Item1 != 0)
+        if (twoPair.Item2 != 0)
         {
             buttons[0].interactable = true;
         }
@@ -30,7 +32,7 @@ public class ClaimButtonsBehaviour : MonoBehaviour
         }
 
         int threeOfKind = DiceEvaluator.IsThreeOfKind(dice);
-        if(threeOfKind > 0)
+        if (threeOfKind > 0)
         {
             buttons[1].interactable = true;
         }
@@ -50,7 +52,7 @@ public class ClaimButtonsBehaviour : MonoBehaviour
         }
 
         Tuple<int, int> fullHouse = DiceEvaluator.IsFullHouse(dice);
-        if(fullHouse.Item1 > 0)
+        if (fullHouse.Item1 > 0)
         {
             buttons[3].interactable = true;
         }
@@ -60,7 +62,7 @@ public class ClaimButtonsBehaviour : MonoBehaviour
         }
 
         int smallStright = DiceEvaluator.IsSmallStraight(dice);
-        if(smallStright > 0)
+        if (smallStright > 0)
         {
             buttons[4].interactable = true;
         }

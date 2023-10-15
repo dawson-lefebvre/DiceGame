@@ -11,40 +11,45 @@ public class DiceManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI rollNumberText;
     [SerializeField] Button rollButton;
 
-    int rollsLeft = 2;
+    public int rollsLeft = 2;
 
     public void Roll()
     {
-        rollsLeft--;
-        rollNumberText.text = $"Rolls Left: {rollsLeft}";
-        rollButton.interactable = false;
-        foreach (DieBehaviour d in dice)
+        rollsLeft--; //Decrement rolls left
+        rollNumberText.text = $"Rolls Left: {rollsLeft}"; //Set UI text
+        rollButton.interactable = false; //Set the roll button to not be interactable
+        foreach (DieBehaviour d in dice) //Roll any die that is not locked
         {
             if (!d.locked)
             {
                 d.Roll();
             }
         }
-        StartCoroutine(EvaluateDice());
+        StartCoroutine(EvaluateDice()); //Start coroutine to wait for roll "animation" to finish
     }
 
     IEnumerator EvaluateDice()
     {
-        yield return new WaitForSeconds(1);
-        claimButtons.RefreshButtons();
-        rollButton.interactable = true;
+        yield return new WaitForSeconds(2); //Wait
+        claimButtons.RefreshButtons(); //Let buttons evaluate
+        rollButton.interactable = true; //Set Roll Button to be interactable
 
-        if (rollsLeft == 0)
+        if (rollsLeft == 0) //Set roll button to false again if no rolls left
         {
             rollButton.interactable = false;
         }
     }
 
-    public void ResetDice()
+    public void ResetDice() //Resets all dice to 1, unlocks dice, and sets rolls back to 2
     {
+        rollsLeft = 2;
         foreach (DieBehaviour d in dice)
         {
             d.SetValue(1);
+            if (d.locked)
+            {
+                d.LockUnlock();
+            }
         }
 
         foreach (Button b in claimButtons.buttons)
